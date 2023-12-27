@@ -296,8 +296,9 @@ Method? _printWhen(
   List<Code> body = [
     Code('switch(${_typenamePropertyName}) {'),
     ...cases,
-    // Code('default:'),
-    // Code('return orElse();'),
+    Code('default:'),
+    Code('final _typeName = ${_typenamePropertyName};'),
+    Code("throw Exception('Unsuported type:\$_typeName');"),
     Code('}')
   ];
 
