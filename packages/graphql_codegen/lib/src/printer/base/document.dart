@@ -297,7 +297,8 @@ Method? _printWhen(
     Code('switch(${_typenamePropertyName}) {'),
     ...cases,
     Code('default:'),
-    Code('return orElse();'),
+    Code('final _typeName = ${_typenamePropertyName};'),
+    Code("throw Exception('Unsuported type:\$_typeName');"),
     Code('}')
   ];
 
@@ -314,13 +315,13 @@ Method? _printWhen(
         ..named = true
         ..required = true),
     ))
-    ..optionalParameters.add(
-      Parameter((p) => p
-        ..name = 'orElse'
-        ..type = FunctionType((b) => b..returnType = _genericTypeParam)
-        ..named = true
-        ..required = true),
-    )
+    // ..optionalParameters.add(
+    //   Parameter((p) => p
+    //     ..name = 'orElse'
+    //     ..type = FunctionType((b) => b..returnType = _genericTypeParam)
+    //     ..named = true
+    //     ..required = true),
+    // )
     ..body = Block.of(body));
 }
 

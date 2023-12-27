@@ -45,11 +45,11 @@ List<Spec> printEnum(PrintContext<ContextEnum> context) {
         dartName: context.namePrinter.printEnumValueName(v.name),
         deprecatedReason: extractDeprecatedReason(v.directives),
       ),
-    if (fallbackEnumValue == null)
-      _EnumMappedValue(
-          graphQLName: kUnknowkEnumValue,
-          dartName: kUnknowkEnumValue,
-          deprecatedReason: null),
+    // if (fallbackEnumValue == null)
+    //   _EnumMappedValue(
+    //       graphQLName: kUnknowkEnumValue,
+    //       dartName: kUnknowkEnumValue,
+    //       deprecatedReason: null),
   ];
   final className = context.namePrinter.printClassName(context.path);
   final specs = <Spec>[
@@ -114,8 +114,10 @@ List<Spec> printEnum(PrintContext<ContextEnum> context) {
             if (value.graphQLName != kUnknowkEnumValue)
               Code(
                   'case r\'${value.graphQLName}\': return ${className}.${value.dartName};'),
-          Code(
-              'default: return ${className}.${fallbackEnumValue ?? kUnknowkEnumValue};'),
+          ...[
+            Code('default:'),
+            Code("throw Exception('Unsuported type:\$value');"),
+          ],
           Code('}')
         ]),
     )
