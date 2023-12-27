@@ -114,8 +114,10 @@ List<Spec> printEnum(PrintContext<ContextEnum> context) {
             if (value.graphQLName != kUnknowkEnumValue)
               Code(
                   'case r\'${value.graphQLName}\': return ${className}.${value.dartName};'),
-          // Code(
-          //     'default: return ${className}.${fallbackEnumValue ?? kUnknowkEnumValue};'),
+          ...[
+            Code('default:'),
+            Code("throw Exception('Unsuported type:\$value');"),
+          ],
           Code('}')
         ]),
     )
